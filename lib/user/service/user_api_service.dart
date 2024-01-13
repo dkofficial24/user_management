@@ -6,8 +6,7 @@ import 'package:user_management/user/model/user_model.dart';
 class UserApiService {
 
   Future<List<UserModel>> fetchUsers() async {
-    try {
-      final response = await Get.find<Dio>().get(ApiEndpoints.getUserEndpoint);
+    final response = await Get.find<Dio>().get(ApiEndpoints.getUserEndpoint);
       if (response.statusCode == 200) {
         List<UserModel> userList = (response.data as List)
             .map((userJson) => UserModel.fromJson(userJson))
@@ -16,16 +15,5 @@ class UserApiService {
       } else {
         throw Exception('Failed to load data');
       }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response != null) {
-          rethrow;
-        } else {
-          rethrow;
-        }
-      } else {
-        rethrow;
-      }
-    }
   }
 }
