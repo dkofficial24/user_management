@@ -10,8 +10,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.backgroundColor,
-    this.elevation = 4.0,
-    this.borderRadius = 24.0,
+    this.elevation = 2,
+    this.borderRadius = 24,
   }) : super(key: key);
 
   @override
