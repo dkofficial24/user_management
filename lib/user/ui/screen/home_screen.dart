@@ -56,9 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (userController.userSearchResults.isEmpty) {
                   return const Center(child: Text(StringConstant.userNotFound));
                 } else {
-                  return ListView.builder(
+                  return ListView.separated(
                     shrinkWrap: true,
                     itemCount: userController.userSearchResults.toList().length,
+                    separatorBuilder: (context,index){
+                      return const Divider();
+                    },
                     itemBuilder: (context, index) {
                       return ListTileWidget(
                         user: userController.userSearchResults.toList()[index],

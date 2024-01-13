@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:user_management/shared/shared.dart';
+import 'package:user_management/user/model/address_model.dart';
+import 'package:user_management/user/model/company_model.dart';
 import 'package:user_management/user/model/user_model.dart';
 
 class UserDbService {
@@ -24,18 +26,43 @@ class UserDbService {
     await db.execute('''
       CREATE TABLE $userTableName(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userJson TEXT
+        name TEXT,
+        username TEXT,
+        email TEXT,
+        phone TEXT,
+        website TEXT,
+        street TEXT,
+        city TEXT,
+        companyName TEXT,
+        catchPhrase TEXT,
+        bs TEXT
       )
     ''');
   }
 
   Future<List<UserModel>> getUsers() async {
     List<Map<String, dynamic>> userMaps = await database.query(userTableName);
-
-    return userMaps
-        .map((userMap) => UserModel.fromJson(jsonDecode(userMap['userJson'])))
-        .toList();
+    return userMaps.map((userMap) {
+      return UserModel(
+        id: userMap['id'],
+        name: userMap['name'],
+        username: userMap['username'],
+        email: userMap['email'],
+        address: Address(
+          street: userMap['street'],
+          city: userMap['city'],
+        ),
+        phone: userMap['phone'],
+        website: userMap['website'],
+        company: Company(
+          name: userMap['companyName'],
+          catchPhrase: userMap['catchPhrase'],
+          bs: userMap['bs'],
+        ),
+      );
+    }).toList();
   }
+
 
   Future<void> saveUsers(List<UserModel> users) async {
     try {
@@ -44,7 +71,19 @@ class UserDbService {
       for (UserModel user in users) {
         batch.insert(
           userTableName,
-          {'userJson': jsonEncode(user.toJson())},
+          {
+            'id': user.id,
+            'name': user.name,
+            'username': user.username,
+            'email': user.email,
+            'street': user.address?.street,
+            'city': user.address?.city,
+            'phone': user.phone,
+            'website': user.website,
+            'companyName': user.company?.name,
+            'catchPhrase': user.company?.catchPhrase,
+            'bs': user.company?.bs,
+          },
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
       }
@@ -53,4 +92,5 @@ class UserDbService {
       Log.e('saveUsers: $e');
     }
   }
+
 }
