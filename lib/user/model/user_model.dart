@@ -1,3 +1,6 @@
+import 'package:user_management/user/model/address_model.dart';
+import 'package:user_management/user/model/company_model.dart';
+
 class UserModel {
   int? id;
   String? name;
@@ -46,47 +49,4 @@ class UserModel {
   }
 }
 
-class Address {
-  String? street;
-  String? city;
 
-  Address({this.street, this.city});
-
-  Map<String, dynamic> toJson() {
-    return {
-      'street': street,
-      'city': city,
-    };
-  }
-
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      street: json['street'],
-      city: json['city'],
-    );
-  }
-}
-
-class Company {
-  String? name;
-  String? catchPhrase;
-  String? bs;
-
-  Company({this.name, this.catchPhrase, this.bs});
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'catchPhrase': catchPhrase,
-      'bs': bs,
-    };
-  }
-
-  factory Company.fromJson(Map<String, dynamic> json) {
-    return Company(
-      name: json['name'],
-      catchPhrase: json['catchPhrase'],
-      bs: json['bs'],
-    );
-  }
-}

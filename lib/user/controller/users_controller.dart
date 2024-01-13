@@ -8,7 +8,7 @@ import 'package:user_management/user/service/user_db_service.dart';
 class UserController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<UserModel> userList = <UserModel>[].obs;
-  RxList<UserModel?> userSearchResults = <UserModel?>[].obs;
+  RxList<UserModel> userSearchResults = <UserModel>[].obs;
 
   Future _fetchUserFromApi() async {
     try {

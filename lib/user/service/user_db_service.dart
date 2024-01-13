@@ -42,12 +42,15 @@ class UserDbService {
       Batch batch = database.batch();
 
       for (UserModel user in users) {
-        batch.insert(userTableName, {'userJson': jsonEncode(user.toJson())});
+        batch.insert(
+          userTableName,
+          {'userJson': jsonEncode(user.toJson())},
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
       }
       await batch.commit();
     } catch (e) {
       Log.e('saveUsers: $e');
     }
   }
-
 }

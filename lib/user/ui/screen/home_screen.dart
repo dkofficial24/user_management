@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:user_management/shared/shared.dart';
 import 'package:user_management/user/controller/users_controller.dart';
-import 'package:user_management/user/ui/screen/user_details_screen.dart';
+import 'package:user_management/user/ui/widget/list_tile_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Users"),
+        title: const Text(StringConstant.homeScreenTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                hintText: 'Search',
+                hintText: StringConstant.searchHintText,
                 prefixIcon: const Icon(Icons.search),
               ),
             ),
@@ -52,56 +53,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
+                } else if (userController.userSearchResults.isEmpty) {
+                  return const Center(child: Text(StringConstant.userNotFound));
                 } else {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: userController.userSearchResults.length,
+                    itemCount: userController.userSearchResults.toList().length,
                     itemBuilder: (context, index) {
-                      var user = userController.userSearchResults[index];
-                      return user == null
-                          ? const Center(
-                              child: Text(
-                                "No Data Available",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            )
-                          : ListTile(
-                            onTap: (){
-                              Get.to(UserDetailsScreen(
-                                userModel: userController.userList[index],
-                              ));
-                            },
-                            contentPadding: const EdgeInsets.all(16),
-                            title: Text(
-                              user.username!,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 6),
-                                Text(
-                                  user.email!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  user.phone!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: const Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                            ),
-                          );
+                      return ListTileWidget(
+                        user: userController.userSearchResults.toList()[index],
+                      );
                     },
                   );
                 }
