@@ -23,22 +23,28 @@ class UserInfoWidget extends StatelessWidget {
             size: 28,
           ),
           const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                value ?? '-',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
+                const SizedBox(height: 6),
+                Text(
+                  value ?? '-',
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ],
       ),

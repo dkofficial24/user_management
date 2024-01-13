@@ -37,6 +37,8 @@ class UserDetailsScreen extends StatelessWidget {
               value: userModel.phone,
             ),
             const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
             const Text(
               StringConstant.address,
               style: TextStyle(
