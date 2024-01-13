@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_management/shared/shared.dart';
-import 'package:user_management/user/controller/users_controller.dart';
-import 'package:user_management/user/ui/widget/list_tile_widget.dart';
+import 'package:user_management/user/user.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,10 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+    fetchUsers();
   }
 
-  void getData() {
+  void fetchUsers() {
     Future.delayed(Duration.zero, () async {
       await userController.fetchUsers();
     });
@@ -37,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             TextFormField(
-              onChanged: (query) {
-                userController.searchUsers(query);
-              },
+              onChanged: userController.searchUsers,
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -49,22 +46,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: Obx(() {
+                final userList = userController.userSearchResults.toList();
                 if (userController.isLoading.value) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (userController.userSearchResults.isEmpty) {
+                  return const ProgressIndicatorWidget();
+                } else if (userList.isEmpty) {
                   return const Center(child: Text(StringConstant.userNotFound));
                 } else {
                   return ListView.separated(
                     shrinkWrap: true,
-                    itemCount: userController.userSearchResults.toList().length,
-                    separatorBuilder: (context,index){
+                    itemCount: userList.length,
+                    separatorBuilder: (context, index) {
                       return const Divider();
                     },
                     itemBuilder: (context, index) {
-                      return ListTileWidget(
-                        user: userController.userSearchResults.toList()[index],
+                      return UserListTileWidget(
+                        user: userList[index],
                       );
                     },
                   );

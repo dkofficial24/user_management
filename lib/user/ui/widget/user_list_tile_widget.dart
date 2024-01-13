@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:user_management/user/model/user_model.dart';
 import 'package:user_management/user/ui/screen/user_details_screen.dart';
 
-class ListTileWidget extends StatelessWidget {
-  const ListTileWidget({
+class UserListTileWidget extends StatelessWidget {
+  const UserListTileWidget({
     super.key,
     required this.user,
   });

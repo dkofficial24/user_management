@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,7 +12,7 @@ class UserDbService {
   static const userTableName = 'users';
   late Database database;
 
-  Future initDatabase() async {
+  Future<void> initDatabase() async {
     String path = join(await getDatabasesPath(), databaseName);
     database = await openDatabase(
       path,
@@ -68,7 +67,7 @@ class UserDbService {
     try {
       Batch batch = database.batch();
 
-      for (UserModel user in users) {
+      for (final user in users) {
         batch.insert(
           userTableName,
           {

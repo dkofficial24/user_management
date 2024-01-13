@@ -1,9 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:user_management/shared/shared.dart';
-import 'package:user_management/user/model/user_model.dart';
-import 'package:user_management/user/service/user_api_service.dart';
-import 'package:user_management/user/service/user_db_service.dart';
+import 'package:user_management/user/user.dart';
 
 class UserController extends GetxController {
   RxBool isLoading = false.obs;
@@ -39,16 +37,18 @@ class UserController extends GetxController {
     }
   }
 
-  Future searchUsers(String value) async {
+  Future<void> searchUsers(String value) async {
     if (value.isEmpty) {
       userSearchResults.value = userList;
     } else {
       final searchResults = userList.where((user) {
-        return (user.username?.toLowerCase().contains(value.toLowerCase()) ?? false) ||
-            (user.email?.toLowerCase().contains(value.toLowerCase()) ?? false) ||
+        return (user.username?.toLowerCase().contains(value.toLowerCase()) ??
+                false) ||
+            (user.email?.toLowerCase().contains(value.toLowerCase()) ??
+                false) ||
             (user.phone?.toLowerCase().contains(value.toLowerCase()) ?? false);
       }).toList();
-      userSearchResults.value = searchResults.obs;///<----
+      userSearchResults.value = searchResults.obs;
     }
   }
 }
