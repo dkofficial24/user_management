@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_management/shared/shared.dart';
+import 'package:user_management/shared/widget/custom_app_bar.dart';
 import 'package:user_management/user/user.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(StringConstant.homeScreenTitle),
+      appBar: const CustomAppBar(
+        title: StringConstant.homeScreenTitle,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
